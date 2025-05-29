@@ -9,3 +9,9 @@ You need to have docker already installed and just run the following line bellow
 ```bash
 docker run -d -p 27017:27017 -v /data/db --name mongo2 mongo:8.0-rc
 ```
+
+And run docker ps to see the running container:
+
+```bash
+docker ps
+```
