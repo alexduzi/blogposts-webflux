@@ -1,6 +1,5 @@
 package com.alexduzi.blogpostswebflux.models.entities;
 
-import com.alexduzi.blogpostswebflux.models.dto.UserDTO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,6 +23,7 @@ public class User {
     }
 
     public User(String id, String name, String email) {
+        super();
         this.id = id;
         this.name = name;
         this.email = email;
@@ -57,28 +57,20 @@ public class User {
         return posts;
     }
 
-    public UserDTO toDto() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(this.id);
-        userDTO.setName(this.name);
-        userDTO.setEmail(this.email);
-        return userDTO;
-    }
-
-    public User copyFrom(UserDTO userDTO) {
-        this.setName(userDTO.getName());
-        this.setEmail(userDTO.getEmail());
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof User user)) return false;
-        return Objects.equals(id, user.id);
-    }
-
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(email, id, name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(name, other.name);
     }
 }

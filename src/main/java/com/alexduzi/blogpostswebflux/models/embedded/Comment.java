@@ -4,26 +4,23 @@ import java.time.Instant;
 
 public class Comment {
 
-    private String id;
     private String text;
-    private Instant moment;
+    private Instant date;
     private Author author;
 
     public Comment() {
     }
 
-    public Comment(String text, Instant moment, Author author) {
+    public Comment(String text, Instant date, Author author) {
         this.text = text;
-        this.moment = moment;
+        this.date = date;
         this.author = author;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public Comment(String text, Instant date, String authorId, String authorName) {
+        this.text = text;
+        this.date = date;
+        this.author = new Author(authorId, authorName);
     }
 
     public String getText() {
@@ -34,12 +31,12 @@ public class Comment {
         this.text = text;
     }
 
-    public Instant getMoment() {
-        return moment;
+    public Instant getDate() {
+        return date;
     }
 
-    public void setMoment(Instant moment) {
-        this.moment = moment;
+    public void setDate(Instant date) {
+        this.date = date;
     }
 
     public Author getAuthor() {

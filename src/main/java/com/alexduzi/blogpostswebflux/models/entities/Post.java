@@ -1,6 +1,5 @@
 package com.alexduzi.blogpostswebflux.models.entities;
 
-import com.alexduzi.blogpostswebflux.models.dto.PostDTO;
 import com.alexduzi.blogpostswebflux.models.embedded.Author;
 import com.alexduzi.blogpostswebflux.models.embedded.Comment;
 import org.springframework.data.annotation.Id;
@@ -9,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Document(collection = "posts")
 public class Post {
@@ -18,7 +18,6 @@ public class Post {
     private Instant moment;
     private String title;
     private String body;
-
     private Author author;
 
     private List<Comment> comments = new ArrayList<>();
@@ -34,6 +33,14 @@ public class Post {
         this.author = author;
     }
 
+    public Post(String id, Instant moment, String title, String body, String authorId, String authorName) {
+        this.id = id;
+        this.moment = moment;
+        this.title = title;
+        this.body = body;
+        this.author = new Author(authorId, authorName);
+    }
+
     public String getId() {
         return id;
     }
@@ -46,8 +53,8 @@ public class Post {
         return moment;
     }
 
-    public void setMoment(Instant moment) {
-        this.moment = moment;
+    public void setMoment(Instant date) {
+        this.moment = date;
     }
 
     public String getTitle() {
@@ -74,25 +81,34 @@ public class Post {
         this.author = author;
     }
 
+    public String getAuthorId() {
+        return author.getId();
+    }
+
+    public String getAuthorName() {
+        return author.getName();
+    }
+
     public List<Comment> getComments() {
         return comments;
     }
 
-    public PostDTO toDto() {
-        PostDTO postDto = new PostDTO();
-        postDto.setId(this.id);
-        postDto.setMoment(this.moment);
-        postDto.setTitle(this.title);
-        postDto.setBody(this.body);
-        postDto.setAuthor(this.author);
-        return postDto;
+    public void addComment(String CommentText, Instant commentDate, String authorId, String authorName) {
+        Comment comment = new Comment(CommentText, moment, authorId, authorName);
+        comments.add(comment);
     }
 
-    public Post copyFrom(PostDTO postDTO) {
-        this.setAuthor(postDTO.getAuthor());
-        this.setBody(postDTO.getBody());
-        this.setTitle(postDTO.getTitle());
-        this.setMoment(postDTO.getMoment());
-        return this;
+    @Override
+    public int hashCode() {
+        return Objects.hash(author, body, moment, id, title);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Post other = (Post) obj;
+        return Objects.equals(author, other.author) && Objects.equals(body, other.body) && Objects.equals(moment, other.moment) && Objects.equals(id, other.id) && Objects.equals(title, other.title);
     }
 }

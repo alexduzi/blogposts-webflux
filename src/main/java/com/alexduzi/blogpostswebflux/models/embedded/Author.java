@@ -2,8 +2,6 @@ package com.alexduzi.blogpostswebflux.models.embedded;
 
 import com.alexduzi.blogpostswebflux.models.entities.User;
 
-import java.util.Objects;
-
 public class Author {
 
     private String id;
@@ -17,9 +15,9 @@ public class Author {
         this.name = name;
     }
 
-    public Author(User user) {
-        this.id = user.getId();
-        this.name = user.getName();
+    public Author(User entity) {
+        id = entity.getId();
+        name = entity.getName();
     }
 
     public String getId() {
@@ -36,16 +34,5 @@ public class Author {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Author author)) return false;
-        return Objects.equals(id, author.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 }
