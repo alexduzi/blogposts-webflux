@@ -1,6 +1,7 @@
 package com.alexduzi.blogpostswebflux.repositories;
 
 import com.alexduzi.blogpostswebflux.models.entities.Post;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,9 @@ import java.time.Instant;
 
 @Repository
 public interface PostRepository extends ReactiveMongoRepository<Post, String> {
+
+    @Query("{ 'user' : ?0 }")
+    Flux<Post> findByUser(ObjectId id);
 
     @Query("{ 'title': { $regex: ?0, $options: 'i' } }")
     Flux<Post> searchTitle(String text);
