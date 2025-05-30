@@ -40,4 +40,9 @@ public class UserController {
     public Mono<ResponseEntity<UserDTO>> update(@PathVariable String id, @RequestBody UserDTO userDto) {
         return userService.update(id, userDto).map(ResponseEntity::ok);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public Mono<ResponseEntity<Void>> delete(@PathVariable String id) {
+        return userService.delete(id).then(Mono.just(ResponseEntity.noContent().build()));
+    }
 }

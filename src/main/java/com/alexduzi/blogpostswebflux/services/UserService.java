@@ -37,4 +37,10 @@ public class UserService {
             return userRepository.save(existingUser).map(UserDTO::new);
         }).switchIfEmpty(Mono.error(new ResourceNotFoundException("User not found!")));
     }
+
+    public Mono<Void> delete(String id) {
+        return userRepository.findById(id)
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("User not found!")))
+                .flatMap(userRepository::delete);
+    }
 }
