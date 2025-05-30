@@ -1,4 +1,4 @@
-package com.alexduzi.blogpostswebflux.Services;
+package com.alexduzi.blogpostswebflux.services;
 
 import com.alexduzi.blogpostswebflux.repositories.PostRepository;
 import org.springframework.stereotype.Service;

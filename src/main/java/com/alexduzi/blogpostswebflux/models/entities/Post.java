@@ -4,6 +4,7 @@ import com.alexduzi.blogpostswebflux.models.embedded.Author;
 import com.alexduzi.blogpostswebflux.models.embedded.Comment;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class Post {
     private Author author;
 
     private List<Comment> comments = new ArrayList<>();
+
+    @DocumentReference
+    private User user;
 
     public Post() {
     }
@@ -96,6 +100,14 @@ public class Post {
     public void addComment(String CommentText, Instant commentDate, String authorId, String authorName) {
         Comment comment = new Comment(CommentText, moment, authorId, authorName);
         comments.add(comment);
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override
