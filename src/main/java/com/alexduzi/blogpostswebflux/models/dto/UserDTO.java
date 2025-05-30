@@ -43,7 +43,9 @@ public class UserDTO {
 
     public User toEntity() {
         User user = new User();
-        user.setId(this.id);
+        if (id != null) {
+            user.setId(id);
+        }
         user.setName(this.name);
         user.setEmail(this.email);
         return user;

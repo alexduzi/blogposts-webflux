@@ -3,10 +3,8 @@ package com.alexduzi.blogpostswebflux.controllers;
 import com.alexduzi.blogpostswebflux.models.dto.UserDTO;
 import com.alexduzi.blogpostswebflux.services.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -28,5 +26,13 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public Mono<ResponseEntity<UserDTO>> findById(@PathVariable String id) {
         return userService.findById(id).map(ResponseEntity::ok);
+    }
+
+    @PostMapping
+    public Mono<ResponseEntity<UserDTO>> insert(@RequestBody UserDTO userDto, UriComponentsBuilder builder) {
+        return userService.insert(userDto)
+                .map(newUser -> ResponseEntity
+                        .created(builder.path("/users/{id}")
+                        .buildAndExpand(newUser.getId()).toUri()).body(newUser));
     }
 }

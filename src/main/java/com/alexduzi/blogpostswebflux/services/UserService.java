@@ -25,4 +25,8 @@ public class UserService {
                 .map(UserDTO::new)
                 .switchIfEmpty(Mono.error(new ResourceNotFoundException("User not found!")));
     }
+
+    public Mono<UserDTO> insert(UserDTO userDTO) {
+        return userRepository.save(userDTO.toEntity()).map(UserDTO::new);
+    }
 }
