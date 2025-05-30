@@ -25,4 +25,9 @@ public class PostService {
                 .map(PostDTO::new)
                 .switchIfEmpty(Mono.error(new ResourceNotFoundException("Post not found!")));
     }
+
+    public Flux<PostDTO> findByTitle(String text) {
+        return postRepository.searchTitle(text)
+                .map(PostDTO::new);
+    }
 }
